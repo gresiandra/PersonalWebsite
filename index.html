@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- JUDUL HALAMAN TELAH DIUBAH -->
+    <title>Projek Personal</title>
+    <!-- Tailwind CSS CDN untuk styling modern dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Konfigurasi Tailwind untuk warna kustom #05b041
+        tailwind.config = {
+            darkMode: 'class', // Mengaktifkan dark mode berdasarkan class 'dark' pada <html>
+            theme: {
+                extend: {
+                    colors: {
+                        'accent': '#05b041', // Warna utama BARU (Hijau yang lebih pekat)
+                        'accent-dark': '#049635', // Lebih gelap untuk hover
+                        'accent-light': '#c4f0d2', // Lebih terang untuk latar belakang/border
+                        // Warna Dark Mode Kustom
+                        'dark-bg': '#111827', // Latar belakang sangat gelap (Blue-Gray 900)
+                        'dark-surface': '#1f2937', // Warna Card / Permukaan (Blue-Gray 800)
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Roboto (Font Material Design yang khas) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Menggunakan font Roboto untuk nuansa Material Design */
+        body {
+            font-family: 'Roboto', sans-serif;
+            /* Tambahkan transisi halus untuk warna latar belakang dan teks */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        /* Mengatur default body background/text untuk Light Mode (Tailwind defaults) */
+        body {
+            background-color: #f3f4f6; /* Gray-100 light mode default */
+            color: #1f2937; /* Gray-800 light mode default */
+        }
+        /* Body dark mode styling (dipicu oleh class 'dark' pada html) */
+        .dark body {
+            background-color: #111827; /* dark-bg */
+            color: #f3f4f6;
+        }
+        
+        /* Kelas kustom untuk animasi saat elemen muncul (digunakan oleh JavaScript) */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            /* Mempersingkat durasi sedikit untuk kesan lebih cepat ala Material */
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity, transform;
+        }
+        .animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Styling tambahan untuk gambar project yang bisa diklik */
+        .project-image {
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .project-image:hover {
+            transform: scale(1.03); /* Sedikit efek lift pada hover */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigasi -->
+    <!-- Menggunakan white default, dark-surface untuk dark mode -->
+    <header class="bg-white dark:bg-dark-surface shadow-xl sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Kiri: Logo -->
+                <a href="#" class="text-xl font-bold text-accent">GresiandraPutra</a>
+                
+                <!-- Kanan: Navigasi dan Toggle -->
+                <div class="flex items-center space-x-4">
+                    <nav class="space-x-4">
+                        <!-- Menyesuaikan warna teks untuk light/dark mode -->
+                        <a href="#profile" class="text-gray-600 dark:text-gray-300 hover:text-accent transition duration-300">Profil</a>
+                        <a href="#experience" class="text-gray-600 dark:text-gray-300 hover:text-accent transition duration-300">Pengalaman</a>
+                        <a href="#projects" class="text-gray-600 dark:text-gray-300 hover:text-accent transition duration-300">Projek</a>
+                    </nav>
+
+                    <!-- Dark Mode Toggle Button -->
+                    <button id="theme-toggle" type="button" class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300">
+                        <!-- Moon Icon (Untuk mode gelap -> menunjukkan tombol untuk mode terang) -->
+                        <svg id="moon-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <!-- Sun Icon (Untuk mode terang -> menunjukkan tombol untuk mode gelap) -->
+                        <svg id="sun-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. Section Profile / Hero -->
+        <!-- Menggunakan white default, dark-surface untuk dark mode -->
+        <section id="profile" class="py-20 md:py-32 bg-white dark:bg-dark-surface animate-on-scroll">
+            <!-- Menggunakan flexbox untuk tata letak 2 kolom, dan flex-row-reverse untuk memindahkan gambar ke kanan -->
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row-reverse md:items-center md:gap-12 text-center md:text-left">
+                
+                <!-- Kontainer KANAN: Foto Profil dan Ikon Sosial -->
+                <div class="md:w-1/3 flex flex-col items-center md:justify-end mb-10 md:mb-0">
+                    <!-- Image Wrapper (Ukuran lebih kecil) -->
+                    <div class="w-48 h-48 p-1 rounded-full shadow-2xl 
+                                bg-gradient-to-br from-cyan-400 to-accent">
+                        <img id="profile-pic" 
+                             src="img/profil.jpeg" 
+                             alt="Foto Profil" 
+                             class="w-full h-full object-cover rounded-full">
+                    </div>
+
+                    <!-- Ikon Sosial Media & Email -->
+                    <div class="flex space-x-6 mt-6">
+                        
+                        <!-- Instagram Icon - Link Diperbarui -->
+                        <a href="https://www.instagram.com/gresiandraputra/" target="_blank" rel="noopener noreferrer" 
+                           aria-label="Instagram" class="text-gray-600 dark:text-gray-300 hover:text-accent transition duration-300 transform hover:scale-110">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.65 1.5H16.35C19.78 1.5 22.5 4.22 22.5 7.65V16.35C22.5 19.78 19.78 22.5 16.35 22.5H7.65C4.22 22.5 1.5 19.78 1.5 16.35V7.65C1.5 4.22 4.22 1.5 7.65 1.5ZM19.2 16.35V7.65C19.2 5.92 17.83 4.55 16.1 4.55H7.9C6.17 4.55 4.8 5.92 4.8 7.65V16.35C4.8 18.08 6.17 19.45 7.9 19.45H16.1C17.83 19.45 19.2 18.08 19.2 16.35ZM12 7.8A4.2 4.2 0 1 0 12 16.2A4.2 4.2 0 0 0 12 7.8ZM12 14.7A2.7 2.7 0 1 1 12 9.3A2.7 2.7 0 0 1 12 14.7ZM17.25 5.85C16.59 5.85 16.05 6.39 16.05 7.05C16.05 7.71 16.59 8.25 17.25 8.25C17.91 8.25 18.45 7.71 18.45 7.05C18.45 6.39 17.91 5.85 17.25 5.85Z"/>
+                            </svg>
+                        </a>
+
+                        <!-- LinkedIn Icon - Link Diperbarui -->
+                        <a href="https://www.linkedin.com/in/gresiandra-putra-972b4120/" target="_blank" rel="noopener noreferrer" 
+                           aria-label="LinkedIn" class="text-gray-600 dark:text-gray-300 hover:text-accent transition duration-300 transform hover:scale-110">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19.7 1H4.3C2.4 1 1 2.4 1 4.3v15.4C1 21.6 2.4 23 4.3 23h15.4c1.9 0 3.3-1.4 3.3-3.3V4.3C23 2.4 21.6 1 19.7 1zM8.5 20H5V9h3.5v11zM6.7 7.6c-1.1 0-1.9-.9-1.9-2s.8-2 1.9-2c1.1 0 1.9.9 1.9 2s-.8 2-1.9 2zm13.1 12.4H16V13.8c0-1.7-.6-2.9-2.2-2.9-1.2 0-1.9.8-2.2 1.5-.1.3-.1.6-.1.9v6.7H8.5V10.2h3.2v1.4c.4-.7 1.3-1.7 3.2-1.7 2.3 0 4.1 1.5 4.1 4.8V20z"/>
+                            </svg>
+                        </a>
+
+                        <!-- Email Icon - Link Diperbarui -->
+                        <a href="mailto:gresiandra@gmail.com" 
+                           aria-label="Email" class="text-gray-600 dark:text-gray-300 hover:text-accent transition duration-300 transform hover:scale-110">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.003 5.884L10.08 9.24a2.25 2.25 0 0 0 1.84 0l8.077-3.356C20.358 5.485 21 6.002 21 6.883V17.1C21 17.98 20.358 18.498 19.601 18.117L11.524 14.76a2.25 2.25 0 0 0 -1.84 0L2.358 18.117C1.601 18.498 1 17.98 1 17.1V6.883c0-.88.642-1.398 1.003-1.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Kontainer KIRI: Text Content dan Tombol -->
+                <div class="md:w-2/3">
+                    <!-- Nama: Menggunakan text-4xl md:text-6xl -->
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-4">
+                        Gresiandra Fitrahananda Putra
+                    </h1>
+                    <!-- Deskripsi: Menggunakan text-lg md:text-xl -->
+                    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300">
+                        "I am a graduate of Informatics Engineering from Mulawarman University. Currently, I'm dedicating my time and skills to the government sector, where I'm focused on utilizing the power of IT to streamline daily operations and ensure that public services are delivered more efficiently and effectively to the community."
+                    <!-- Kontainer untuk Tombol CTA -->
+                    <div class="mt-8 md:text-left flex flex-col items-center md:items-start space-y-6">
+                        <!-- Tombol CTA -->
+                        <a href="#projects" class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg shadow-xl text-white bg-accent hover:bg-accent-dark transition duration-300 transform hover:scale-[1.02]">
+                            Lihat Projek Pribadi
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 2. Section Pengalaman Kerja (Timeline Card) -->
+        <!-- Latar belakang Light Mode default (Gray-100), Dark Mode dark-bg -->
+        <section id="experience" class="py-16 md:py-24 bg-gray-100 dark:bg-dark-bg animate-on-scroll">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Judul: Menggunakan text-gray-900 default, text-white untuk dark mode -->
+                <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Pengalaman Kerja</h2>
+                
+                <div class="space-y-6">
+                    
+                    <!-- Item Pengalaman 1 (Penata Kelola Sistem dan TI) -->
+                    <div class="bg-white dark:bg-dark-surface p-6 rounded-xl shadow-lg border-l-4 border-accent hover:shadow-xl transition duration-300">
+                        <div class="flex justify-between items-start">
+                            <!-- Judul Card: text-gray-900 default, text-gray-100 untuk dark mode -->
+                            <h3 class="text-xl font-medium text-gray-900 dark:text-gray-100">Penata Kelola Sistem dan Teknologi Informasi</h3>
+                            <!-- Label -->
+                            <span class="text-sm font-medium text-accent bg-accent-light px-3 py-1 rounded-full">Saat Ini</span>
+                        </div>
+                        <!-- Subtitle: text-gray-600 default, text-gray-300 untuk dark mode -->
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mt-1">Dinas Kependudukan dan Pencatatan Sipil</p>
+                        <!-- Deskripsi: text-gray-500 default, text-gray-400 untuk dark mode -->
+                        <p class="text-gray-500 dark:text-gray-400 mt-3">Bertanggung jawab dalam pengelolaan, pemeliharaan, dan pengembangan sistem dan teknologi informasi kependudukan dan pencatatan sipil untuk meningkatkan layanan publik.</p>
+                    </div>
+
+                    <!-- Item Pengalaman 2 (Admin Gudang) - Periode diubah ke 2022 - 2025 -->
+                    <div class="bg-white dark:bg-dark-surface p-6 rounded-xl shadow-lg border-l-4 border-gray-400 dark:border-gray-600 hover:shadow-xl transition duration-300">
+                        <div class="flex justify-between items-start">
+                            <!-- Judul Card: text-gray-900 default, text-gray-100 untuk dark mode -->
+                            <h3 class="text-xl font-medium text-gray-900 dark:text-gray-100">Admin Gudang</h3>
+                            <!-- Label -->
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 px-3 py-1 rounded-full">2022 - 2025</span>
+                        </div>
+                        <!-- Subtitle: text-gray-600 default, text-gray-300 untuk dark mode -->
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mt-1">PT. Maju Express Indonesia</p>
+                        <!-- Deskripsi: text-gray-500 default, text-gray-400 untuk dark mode -->
+                        <p class="text-gray-500 dark:text-gray-400 mt-3">Mengelola pencatatan keluar masuk barang dan memastikan akurasi data inventaris gudang untuk mendukung kelancaran operasional pengiriman.</p>
+                    </div>
+                    
+                    <!-- Item Pengalaman 3 (SPV Inventory Control) - Periode diubah ke 2021 - 2022 -->
+                    <div class="bg-white dark:bg-dark-surface p-6 rounded-xl shadow-lg border-l-4 border-gray-400 dark:border-gray-600 hover:shadow-xl transition duration-300">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-medium text-gray-900 dark:text-gray-100">SPV Inventory Control</h3>
+                            <!-- Label: Menggunakan dark background di dark mode -->
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 px-3 py-1 rounded-full">2021 - 2022</span>
+                        </div>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mt-1">PT. Indomarco Prismatama (Indomaret)</p>
+                        <p class="text-gray-500 dark:text-gray-400 mt-3">Mengawasi dan mengontrol semua aspek inventaris, termasuk proses *stock opname* dan analisis perbedaan, untuk meminimalkan kerugian dan memastikan ketersediaan produk.</p>
+                    </div>
+
+                    <!-- Item Pengalaman 4 (Admin Control) -->
+                    <div class="bg-white dark:bg-dark-surface p-6 rounded-xl shadow-lg border-l-4 border-gray-400 dark:border-gray-600 hover:shadow-xl transition duration-300">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-medium text-gray-900 dark:text-gray-100">Admin Control</h3>
+                            <!-- Label: Menggunakan dark background di dark mode -->
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 px-3 py-1 rounded-full">2019 - 2020</span>
+                        </div>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mt-1">PT. Artaboga Cemerlang</p>
+                        <p class="text-gray-500 dark:text-gray-400 mt-3">Melakukan tugas administrasi kontrol dokumen dan data operasional harian untuk mendukung fungsi manajemen dan pelaporan internal.</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        
+        <!-- 3. Section Project (Grid) -->
+        <section id="projects" class="py-16 md:py-24 bg-gray-100 dark:bg-dark-bg animate-on-scroll">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Judul: Menggunakan text-gray-900 default, text-white untuk dark mode -->
+                <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Projek Pribadi</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Project Card 1: Al-Qur'an Online -->
+                    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+                        <!-- Ganti URL di data-src dan src dengan path gambar Anda -->
+                        <img class="w-full h-48 object-cover project-image" 
+                             src="img/quranOnline.png" 
+                             alt="Screenshot Project Al-Qur'an Online" 
+                             data-src="img/quranOnline.png"
+                             data-title="Al-Qur'an Online">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Al-Qur'an Online</h3>
+                            <p class="text-gray-500 dark:text-gray-300 text-sm">Aplikasi web untuk membaca dan mempelajari Al-Qur'an secara daring, dengan fitur terjemahan dan pencarian ayat.</p>
+                            <!-- Tombol Kunjungi Projek -->
+                            <a href="https://gresiandra.github.io/QuranOnline/" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block w-full text-center py-2 text-sm font-medium rounded-lg text-white bg-accent hover:bg-accent-dark transition duration-300">
+                                Kunjungi Projek
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 2: Chatbot Disdukcapil -->
+                    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+                        <!-- Ganti URL di data-src dan src dengan path gambar Anda -->
+                        <img class="w-full h-48 object-cover project-image" 
+                             src="img/chatbot.png" 
+                             alt="Screenshot Project Chatbot Disdukcapil" 
+                             data-src="img/chatbot.png"
+                             data-title="Chatbot Disdukcapil">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Chatbot Disdukcapil</h3>
+                            <p class="text-gray-500 dark:text-gray-300 text-sm">Implementasi chatbot untuk memberikan informasi dan layanan kependudukan dan pencatatan sipil secara otomatis.</p>
+                             <!-- Tombol Kunjungi Projek -->
+                            <a href="https://csbotcapil.free.nf/?i=1" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block w-full text-center py-2 text-sm font-medium rounded-lg text-white bg-accent hover:bg-accent-dark transition duration-300">
+                                Kunjungi Projek
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 3: Reaction Game -->
+                    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+                        <!-- Ganti URL di data-src dan src dengan path gambar Anda -->
+                        <img class="w-full h-48 object-cover project-image" 
+                             src="img/reactionGame.png" 
+                             alt="Screenshot Project Reaction Game" 
+                             data-src="img/reactionGame.png"
+                             data-title="Reaction Game">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Reaction Game</h3>
+                            <p class="text-gray-500 dark:text-gray-300 text-sm">Sebuah permainan sederhana berbasis web untuk menguji dan melatih kecepatan waktu reaksi pengguna.</p>
+                             <!-- Tombol Kunjungi Projek -->
+                            <a href="https://fun-reaction-game.netlify.app/" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block w-full text-center py-2 text-sm font-medium rounded-lg text-white bg-accent hover:bg-accent-dark transition duration-300">
+                                Kunjungi Projek
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Tambahkan lebih banyak Project Card di sini -->
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal / Lightbox untuk Preview Gambar Projek -->
+    <!-- Modal tetap gelap agar kontras dengan latar belakang layar utama -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden transition duration-300" onclick="closeModal(event)">
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-2xl max-w-4xl w-full p-6 transform transition-all duration-300 scale-90 opacity-0" id="modal-content">
+            <div class="flex justify-between items-start mb-4">
+                <h3 id="modal-title" class="text-gray-900 dark:text-white text-xl font-bold"></h3>
+                <button onclick="closeModal()" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300 text-3xl leading-none">&times;</button>
+            </div>
+            <img id="modal-image" src="" alt="Gambar Project Diperbesar" class="w-full h-auto max-h-[80vh] object-contain rounded-lg">
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ===================================
+            // 0. Logika Dark Mode
+            // ===================================
+            const htmlEl = document.documentElement;
+            const themeToggle = document.getElementById('theme-toggle');
+            const moonIcon = document.getElementById('moon-icon');
+            const sunIcon = document.getElementById('sun-icon');
+
+            function updateIcon(isDark) {
+                // Tampilkan ikon yang BERLAWANAN dengan mode saat ini
+                if (isDark) {
+                    moonIcon.classList.remove('hidden'); // Bulan muncul (ajakan ke Light Mode)
+                    sunIcon.classList.add('hidden');
+                } else {
+                    moonIcon.classList.add('hidden');
+                    sunIcon.classList.remove('hidden'); // Matahari muncul (ajakan ke Dark Mode)
+                }
+            }
+
+            function initializeTheme() {
+                const isDarkModePreferred = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                let currentTheme = localStorage.getItem('theme');
+
+                // Jika tema tersimpan adalah 'dark' ATAU tidak ada tema tersimpan dan sistem memilih dark
+                if (currentTheme === 'dark' || (!currentTheme && isDarkModePreferred)) {
+                    htmlEl.classList.add('dark');
+                    updateIcon(true);
+                } else {
+                    // FIX: Baris 'updateEl.classList.add('hidden');' yang salah dihapus 
+                    // dan diganti dengan pembaruan ikon yang benar.
+                    htmlEl.classList.remove('dark');
+                    updateIcon(false); 
+                }
+            }
+
+            function toggleTheme() {
+                const isDark = htmlEl.classList.contains('dark');
+                
+                if (isDark) {
+                    // Switch ke Light Mode
+                    htmlEl.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                    updateIcon(false);
+                } else {
+                    // Switch ke Dark Mode
+                    htmlEl.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    updateIcon(true);
+                }
+            }
+
+            // Pasang listener pada tombol toggle
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
+            }
+
+            // Inisialisasi tema saat halaman dimuat
+            initializeTheme();
+
+
+            // ===================================
+            // 1. Logika Modal / Lightbox
+            // ===================================
+            const projectImages = document.querySelectorAll('.project-image');
+            const modal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+
+            // Fungsi untuk membuka modal
+            projectImages.forEach(img => {
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Mencegah event klik menyebar ke backdrop
+                    const imageUrl = img.getAttribute('data-src');
+                    const imageTitle = img.getAttribute('data-title');
+
+                    modalImage.src = imageUrl;
+                    modalTitle.textContent = imageTitle;
+                    modal.classList.remove('hidden');
+
+                    // Memicu transisi untuk tampilan yang halus
+                    setTimeout(() => {
+                        modalContent.classList.remove('scale-90', 'opacity-0');
+                        modalContent.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                });
+            });
+
+            // Fungsi untuk menutup modal
+            window.closeModal = (event) => {
+                // Tutup hanya jika diklik di tombol atau di backdrop (bukan di konten modal)
+                if (event === undefined || event.target === modal || event.target.tagName === 'BUTTON') {
+                    modalContent.classList.remove('scale-100', 'opacity-100');
+                    modalContent.classList.add('scale-90', 'opacity-0');
+
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        modalImage.src = ""; // Reset src
+                    }, 300); // Sesuaikan dengan durasi transisi CSS
+                }
+            };
+            
+            // ===================================
+            // 2. Logika Animasi Saat Scroll
+            // ===================================
+            
+            const sections = document.querySelectorAll('.animate-on-scroll');
+            
+            // Konfigurasi Intersection Observer
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // Ketika 10% dari elemen terlihat
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Tambahkan kelas untuk memulai animasi
+                        entry.target.classList.add('animate-in');
+                        // Hentikan pengamatan setelah dianimasikan
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Amati setiap section
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Tambahkan kelas animate-in ke Hero/Profile secara instan agar tidak kosong saat load
+            document.getElementById('profile').classList.add('animate-in');
+        });
+    </script>
+</body>
+</html>
